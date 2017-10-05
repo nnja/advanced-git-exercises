@@ -1,0 +1,13 @@
+# Use git to find all .sh files that were added
+# or modified in this commit
+
+files=`git diff --staged --name-only --diff-filter=AM *.sh`
+
+for f in $files
+do
+	if [ "`head -n 1 $f | cut -c1-2`" != "#!" ]; then
+		echo "No shebang found! Not allowed to commit!"
+		exit 1
+	fi
+done
+
